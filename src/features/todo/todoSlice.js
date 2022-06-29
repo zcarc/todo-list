@@ -14,24 +14,26 @@ export const todoSlice = createSlice({
   name: "todo",
   initialState,
   reducers: {
-    insert: (state, payload) => {
-      state.todos.concat({
-        id: payload.id,
-        text: payload.text,
+    insert: (state, action) => {
+      state.todos.push({
+        id: action.payload.id,
+        text: action.payload.text,
         isCompleted: false,
       });
     },
-    remove: (state, payload) => {
-      state.todos = state.todos.filter((todo) => todo.id !== payload.id);
+    remove: (state, action) => {
+      state.todos = state.todos.filter((todo) => todo.id !== action.payload);
     },
-    update: (state, payload) => {
+    update: (state, action) => {
       state.todos = state.todos.map((todo) =>
-        todo.id === payload.id ? { ...todo, text: payload.text } : todo
+        todo.id === action.payload.id
+          ? { ...todo, text: action.payload.text }
+          : todo
       );
     },
-    toggle: (state, payload) => {
+    toggle: (state, action) => {
       state.todos = state.todos.map((todo) =>
-        todo.id === payload.id
+        todo.id === action.payload
           ? { ...todo, isCompleted: !todo.isCompleted }
           : todo
       );
